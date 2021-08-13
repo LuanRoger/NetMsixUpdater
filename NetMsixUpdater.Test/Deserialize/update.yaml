@@ -1,0 +1,6 @@
+﻿#Everything here is for test reasons :)
+version: 13.0.0.0
+url: https://github.com/LuanRoger/ProjectBook/releases/download/v0.6.9-beta/ProjectBook.Pakage_0.6.9.0_AnyCPU.msix
+extension: .msix
+changelog: https://github.com/LuanRoger/ProjectBook/releases/tag/v0.6.9-beta
+mandatory: false

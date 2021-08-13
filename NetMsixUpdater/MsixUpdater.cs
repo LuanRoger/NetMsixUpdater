@@ -7,7 +7,7 @@ namespace NetMsixUpdater
 {
     public class MsixUpdater : IDisposable
     {
-        internal Assembly programAssembly { get; set; }
+        internal Assembly programAssembly { get; private set; }
 
         public bool hasUpdated
         {
@@ -15,7 +15,7 @@ namespace NetMsixUpdater
         }
 
         private string yamlPath {get; set;}
-        internal YamlFileInfo yamlUpdateInfo {get; set;}
+        public YamlFileInfo yamlUpdateInfo {get; private set;}
 
         public MsixUpdater(Assembly assembly, string yamlPath)
         {
@@ -30,9 +30,11 @@ namespace NetMsixUpdater
                 yamlUpdateInfo = (YamlFileInfo)yamlFileInfo.DeserializeYaml<YamlFileInfo>();
         }
 
-        public bool disposed { get; set; } = false;
+        private bool disposed { get; set; }
         public void Dispose()
         {
+            if(!disposed) return;
+            
             programAssembly = null;
             yamlPath = null;
             yamlUpdateInfo = null;

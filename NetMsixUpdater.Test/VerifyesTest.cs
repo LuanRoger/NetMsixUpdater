@@ -11,7 +11,7 @@ namespace NetMsixUpdater.Test
             MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
             msixUpdater.Build();
 
-            Assert.True(msixUpdater.hasUpdated);
+            Assert.False(msixUpdater.hasUpdated);
         }
 
         [Fact]

@@ -1,6 +1,5 @@
 using Xunit;
 using System.Reflection;
-using System;
 
 namespace NetMsixUpdater.Test
 {
@@ -11,6 +10,9 @@ namespace NetMsixUpdater.Test
         {
             MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
             msixUpdater.Build();
+            
+            Assert.NotNull(msixUpdater.yamlUpdateInfo);
+            Assert.NotEqual(string.Empty, msixUpdater.yamlUpdateInfo.version.ToString());
         }
     }
 }

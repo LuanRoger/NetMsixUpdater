@@ -2,13 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <AssemblyVersion>0.0.0.1</AssemblyVersion>
+    <AssemblyVersion></AssemblyVersion>
     <Version>0.0.1</Version>
+    <License>MIT</License>
     <Authors>LuanRoger</Authors>
-    <Description>NetMsixUpdater is a library that allows complete and built-in updates to .msix programs.</Description>
-    <FileVersion>0.0.0.1</FileVersion>
+    <Description>Full control of your .msix program updates</Description>
+    <PackageDescription>Full control of your .msix program updates</PackageDescription>
+    <FileVersion></FileVersion>
     <Title>Net Msix Updater</Title>
-    <PackageTags>msix,appbundle,updater,.net,update,csharp</PackageTags>
+    <PackageTags>msix;appbundle;updater;.net;update;csharp</PackageTags>
+    <PackageProjectUrl>https://github.com/LuanRoger/NetMsixUpdater</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/LuanRoger/NetMsixUpdater</RepositoryUrl>
+    <Summary>NetMsixUpdater is a library that allows complete and built-in updates to .msix programs.</Summary>
+    <PackageVersion>0.0.2</PackageVersion>
   </PropertyGroup>
 
   <ItemGroup>
