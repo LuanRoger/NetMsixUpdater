@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Net;
+using System.Reflection;
+using NetMsixUpdater.Exeptions;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -9,13 +11,12 @@ namespace NetMsixUpdater.YamlInfo
     internal sealed class YamlUpdateInfo : IDisposable
     {
         private string yamlText { get; set; }
-        private bool isInServer { get; set; }
+        private bool isInServer { get; }
 
         internal YamlUpdateInfo(string yamlFilePath)
         {
-            Uri tempUriResult;
-            isInServer = Uri.TryCreate(yamlFilePath, UriKind.Absolute, out tempUriResult) && 
-                (tempUriResult.Scheme == Uri.UriSchemeHttp || tempUriResult.Scheme == Uri.UriSchemeHttps);
+            isInServer = Uri.TryCreate(yamlFilePath, UriKind.Absolute, out Uri tempUriResult) && 
+                         (tempUriResult.Scheme == Uri.UriSchemeHttp || tempUriResult.Scheme == Uri.UriSchemeHttps);
 
             if(isInServer)
                 using(WebClient webClient = new()) yamlText = webClient.DownloadString(yamlFilePath);
@@ -24,23 +25,31 @@ namespace NetMsixUpdater.YamlInfo
         }
         ~YamlUpdateInfo() => Dispose();
 
-        internal object DeserializeYaml<T>()
+        internal T DeserializeYaml<T>()
         {
             IDeserializer deserialize = new DeserializerBuilder()
                 .WithNamingConvention(UnderscoredNamingConvention.Instance)
                 .Build();
-
-            return deserialize.Deserialize<T>(yamlText);
+            
+            
+            T result = deserialize.Deserialize<T>(yamlText);
+            VerifyDerializationResult(result);
+            
+            return result;
         }
-
-        public bool disposed { get; set; } = false;
+        
+        private void VerifyDerializationResult(object result)
+        {
+            var properties = result.GetType().GetProperties();
+            foreach (PropertyInfo propertyInfo in properties)
+                if(propertyInfo.GetValue(result) == null) throw new YamlFieldNullExeption(propertyInfo.Name);
+        }
+        
         public void Dispose()
         {
             yamlText = null;
 
             GC.SuppressFinalize(this);
-            
-            disposed = true;
         }
     }
 }

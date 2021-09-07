@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Reflection;
 using NetMsixUpdater.Updater.Extensions;
+using NetMsixUpdater.Updater.Extensions.MsixUpdater;
 using Xunit;
 
 namespace NetMsixUpdater.Test.DownloadTests

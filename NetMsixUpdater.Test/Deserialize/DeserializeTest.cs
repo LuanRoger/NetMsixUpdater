@@ -1,7 +1,7 @@
-using Xunit;
 using System.Reflection;
+using Xunit;
 
-namespace NetMsixUpdater.Test
+namespace NetMsixUpdater.Test.Deserialize
 {
     public class DeserializeTest
     {

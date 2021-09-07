@@ -3,11 +3,20 @@ using System.Diagnostics;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace NetMsixUpdater.Updater.Extensions
+#nullable enable
+
+namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
 {
-    public static class UpdateExtension
+
+    /// <summary>
+    /// Extensions for <c>MsixUpdater</c> to download and install updates
+    /// </summary>
+    public static partial class UpdateExtension
     {
-        public static void DownloadAndInstall(this MsixUpdater msixUpdater)
+        /// <summary>
+        /// Download and install the update.
+        /// </summary>
+        public static void DownloadAndInstall(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
             string fileName = Consts.installerPath + msixUpdater.yamlUpdateInfo.extension;
 
@@ -19,7 +28,12 @@ namespace NetMsixUpdater.Updater.Extensions
             OnDownlaodCompleteCall();
             InstallUpdate(fileName);
         }
-        public static Task DownloadAndInstallAsync(this MsixUpdater msixUpdater)
+        
+        /// <summary>
+        /// Download and install the update asynchronously.
+        /// </summary>
+        /// <returns>Download and install task.</returns>
+        public static Task DownloadAndInstallAsync(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
             string fileName = Consts.installerPath + msixUpdater.yamlUpdateInfo.extension;
 
@@ -37,9 +51,8 @@ namespace NetMsixUpdater.Updater.Extensions
         /// <summary>
         /// Only download the update.
         /// </summary>
-        /// <param name="msixUpdater">Base <c>MsixUpdater</c> instance</param>
         /// <param name="savePath">Path where the update file will be saved (Without extension)</param>
-        public static void DownlaodUpdate(this MsixUpdater msixUpdater, string savePath)
+        public static void DownlaodUpdate(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
             string fileName = savePath + msixUpdater.yamlUpdateInfo.extension;
             
@@ -50,13 +63,14 @@ namespace NetMsixUpdater.Updater.Extensions
             
             OnDownlaodCompleteCall();
         }
+        
         /// <summary>
-        /// Only download the update.
+        /// Only download the update asynchronously.
         /// </summary>
         /// <param name="msixUpdater">Base <c>MsixUpdater</c> instance</param>
         /// <param name="savePath">Path where the update file will be saved (Without extension)</param>
         /// <returns>Will return <c>null</c> if has updated.</returns>
-        public static Task? DownlaodUpdateAsync(this MsixUpdater msixUpdater, string savePath)
+        public static Task? DownlaodUpdateAsync(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
             string fileName = savePath + msixUpdater.yamlUpdateInfo.extension;
             
@@ -81,16 +95,7 @@ namespace NetMsixUpdater.Updater.Extensions
             };
             instalationProcess.Start();
         }
-
-        #region Delegates
-        public delegate void CompleteEventHandler(EventArgs e);
-        #endregion
-
-        #region Events
-        public static event CompleteEventHandler OnDownlaodComplete;
-        public static event DownloadProgressChangedEventHandler OnUpdateDownloadProgresssChange;
-        #endregion
-
+        
         #region EventsCalls
         private static void OnDownlaodCompleteCall() => OnDownlaodComplete?.Invoke(EventArgs.Empty);
         private static void OnUpdateDownloadProgressChangeCall(object sender, DownloadProgressChangedEventArgs eventArgs) => 
