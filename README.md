@@ -1,10 +1,8 @@
-<h1 align="center">NetMsixUpdater</h1>
-<h3 align="center">NetMsixUpdater is a library that allows complete and built-in updates to .msix programs.</h3>
+# NetMsixUpdater
+### NetMsixUpdater is a library that allows complete and built-in updates to .msix programs.
 
-<p>
-  <img src="https://img.shields.io/nuget/dt/NetMsixUpdater">
-  <img src="https://img.shields.io/nuget/v/NetMsixUpdater">
-</p>
+![version](https://img.shields.io/nuget/dt/NetMsixUpdater)
+![last](https://img.shields.io/nuget/v/NetMsixUpdater)
 
 ## Dependencies
 - .NET 5
@@ -21,5 +19,28 @@ dotnet add package NetMsixUpdater --version 0.0.1
 ```
 See also in [NuGet Gallery](https://www.nuget.org/packages/NetMsixUpdater)
 
+## Example
+```yaml
+version: 0.6.9.0
+url: https://github.com/LuanRoger/ProjectBook/releases/download/v0.6.9-beta/ProjectBook.Pakage_0.6.9.0_AnyCPU.msix
+extension: .msix
+changelog: https://github.com/LuanRoger/ProjectBook/releases/tag/v0.6.9-beta
+mandatory: false
+```
+> Yaml info file
+
+```chsarp
+MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
+msixUpdater.Build();
+
+UpdateExtension.OnDownlaodComplete += (_) =>
+{
+    Debug.WriteLine("Done.");
+};
+
+msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
+```
+> C# code to only download update
+
 ## Documentation
-Coming soon
+Documentation is available on the [Wiki](https://github.com/LuanRoger/NetMsixUpdater/wiki)
