@@ -6,10 +6,13 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
     public static partial class UpdateExtension
     {
         #region Delegates
+        public delegate void StartEventHandler(EventArgs e);
         public delegate void CompleteEventHandler(EventArgs e);
         #endregion
 
         #region Events
+        public static event StartEventHandler OnDownloadStart;
+        
         /// <summary>
         /// Occurs when the download is finished
         /// </summary>
