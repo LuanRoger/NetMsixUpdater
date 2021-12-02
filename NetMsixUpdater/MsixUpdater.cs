@@ -63,7 +63,8 @@ namespace NetMsixUpdater
         /// <exception cref="HasBuildedExeption">Call this method with <c>yamlUpdateInfo</c> already built may cause an exception.</exception>
         public void Build()
         {
-            if(hasBuilded) throw new HasBuildedExeption();
+            if(hasBuilded) 
+                throw new HasBuildedExeption();
             
             using YamlUpdateInfo yamlFileInfo = new(yamlPath);
             
