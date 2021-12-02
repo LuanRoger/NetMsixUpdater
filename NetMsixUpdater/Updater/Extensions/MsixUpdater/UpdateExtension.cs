@@ -15,6 +15,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
     {
         /// <summary>
         /// Download and install the update.
+        /// The update file is stored in Temp folder.
         /// </summary>
         public static void DownloadAndInstall(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
@@ -32,6 +33,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         
         /// <summary>
         /// Download and install the update asynchronously.
+        /// The update file is stored in Temp folder.
         /// </summary>
         /// <returns>Will return <c>null</c> if has updated.</returns>
         public static Task? DownloadAndInstallAsync(this NetMsixUpdater.MsixUpdater msixUpdater)
@@ -56,7 +58,8 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <param name="savePath">Path where the update file will be saved (Without extension)</param>
         public static void DownlaodUpdate(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
-            string fileName = savePath + msixUpdater.yamlUpdateInfo.extension;
+            string fileName = savePath.Contains(msixUpdater.yamlUpdateInfo.extension) ? savePath : 
+                savePath + msixUpdater.yamlUpdateInfo.extension;
             
             if(msixUpdater.hasUpdated) return;
             
@@ -74,7 +77,8 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <returns>Will return <c>null</c> if has updated.</returns>
         public static Task? DownlaodUpdateAsync(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
-            string fileName = savePath + msixUpdater.yamlUpdateInfo.extension;
+            string fileName = savePath.Contains(msixUpdater.yamlUpdateInfo.extension) ? savePath : 
+                savePath + msixUpdater.yamlUpdateInfo.extension;
             
             if(msixUpdater.hasUpdated) return null;
 
