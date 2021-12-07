@@ -8,13 +8,14 @@
     <Authors>LuanRoger</Authors>
     <Description>Full control of your .msix program updates</Description>
     <PackageDescription>Full control of your .msix program updates</PackageDescription>
-    <FileVersion></FileVersion>
     <Title>Net Msix Updater</Title>
     <PackageTags>msix;appbundle;updater;.net;update;csharp</PackageTags>
     <PackageProjectUrl>https://github.com/LuanRoger/NetMsixUpdater</PackageProjectUrl>
     <RepositoryUrl>https://github.com/LuanRoger/NetMsixUpdater</RepositoryUrl>
     <Summary>NetMsixUpdater is a library that allows complete and built-in updates to .msix programs.</Summary>
-    <PackageVersion>0.2.1</PackageVersion>
+    <PackageVersion>0.2.2</PackageVersion>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/LuanRoger/NetMsixUpdater/main/LICENSE</PackageLicenseUrl>
+    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
