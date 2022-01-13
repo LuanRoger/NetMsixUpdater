@@ -1,10 +1,17 @@
 using System.Reflection;
+using NetMsixUpdater.Test.Utils;
 using Xunit;
 
-namespace NetMsixUpdater.Test.DeserializeTests
+namespace NetMsixUpdater.Test
 {
+    [Collection("FileManipulation")]
     public class DeserializeTest
     {
+        public DeserializeTest()
+        {
+            YamlFileWriter.WriteYamlFile();
+        }
+        
         [Fact]
         public void Deserialize()
         {
