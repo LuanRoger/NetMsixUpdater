@@ -1,13 +1,14 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
+using NetMsixUpdater.Test.Utils;
 using NetMsixUpdater.Updater.Extensions.MsixUpdater;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace NetMsixUpdater.Test.DownloadTests
+namespace NetMsixUpdater.Test
 {
-    [Collection("Downlaod")]
+    [Collection("FileManipulation")]
     public class DownloadTest
     {
         private readonly ITestOutputHelper output;
@@ -15,13 +16,8 @@ namespace NetMsixUpdater.Test.DownloadTests
         public DownloadTest(ITestOutputHelper output)
         {
             this.output = output;
+            YamlFileWriter.WriteYamlFile();
         }
-        /// <summary>
-        /// Need to be executed after all tests in this class.
-        /// Delete downloaded update from <c>Consts.MSIX_OUTPUT</c>
-        /// </summary>
-        private void DeleteDownloadedUpdateFile() =>
-            File.Delete(Consts.MSIX_OUTPUT);
 
         [Fact]
         public void DownloadMsix()
@@ -32,7 +28,6 @@ namespace NetMsixUpdater.Test.DownloadTests
             msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
             
             Assert.True(File.Exists(Consts.MSIX_OUTPUT));
-            DeleteDownloadedUpdateFile();
         }
         [Fact]
         public async void DownloadMsixAsync()
@@ -44,7 +39,6 @@ namespace NetMsixUpdater.Test.DownloadTests
             await downloadTask;
 
             Assert.True(File.Exists(Consts.MSIX_OUTPUT));
-            DeleteDownloadedUpdateFile();
         }
         [Fact]
         public void DownlaodEventsTest()
@@ -63,7 +57,6 @@ namespace NetMsixUpdater.Test.DownloadTests
             msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
             
             Assert.True(File.Exists(Consts.MSIX_OUTPUT));
-            DeleteDownloadedUpdateFile();
         }
         [Fact]
         public void DownlaodProgressChangeEventTest()
@@ -90,7 +83,6 @@ namespace NetMsixUpdater.Test.DownloadTests
             downloadUpdateAsync.ContinueWith(_ =>
             {
                 Assert.True(File.Exists(Consts.MSIX_OUTPUT));
-                DeleteDownloadedUpdateFile();
             });
             await downloadUpdateAsync;
         }
