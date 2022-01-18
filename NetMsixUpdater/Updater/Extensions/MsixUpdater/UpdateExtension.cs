@@ -19,13 +19,13 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// </summary>
         public static void DownloadAndInstall(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
-            string fileName = Consts.installerPath + msixUpdater.yamlUpdateInfo.extension;
+            string fileName = Consts.installerPath + msixUpdater.currentChannel.extension;
 
             if(msixUpdater.hasUpdated) return;
             
             OnStartDownloadCall();
             using(WebClient webClient = new())
-                webClient.DownloadFile(msixUpdater.yamlUpdateInfo.url, fileName);
+                webClient.DownloadFile(msixUpdater.currentChannel.url, fileName);
             
             OnDownlaodCompleteCall();
             InstallUpdate(fileName);
@@ -38,7 +38,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <returns>Will return <c>null</c> if has updated.</returns>
         public static Task? DownloadAndInstallAsync(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
-            string fileName = Consts.installerPath + msixUpdater.yamlUpdateInfo.extension;
+            string fileName = Consts.installerPath + msixUpdater.currentChannel.extension;
 
             if(msixUpdater.hasUpdated) return null;
             
@@ -48,7 +48,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
             webClient.DownloadProgressChanged += OnUpdateDownloadProgressChangeCall;
             webClient.DownloadFileCompleted += (_, _) => OnDownlaodCompleteCall();
                              
-            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.yamlUpdateInfo.url), fileName)
+            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.currentChannel.url), fileName)
                 .ContinueWith(_ => InstallUpdate(fileName));
         }
         
@@ -58,14 +58,14 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <param name="savePath">Path where the update file will be saved (Without extension)</param>
         public static void DownlaodUpdate(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
-            string fileName = savePath.Contains(msixUpdater.yamlUpdateInfo.extension) ? savePath : 
-                savePath + msixUpdater.yamlUpdateInfo.extension;
+            string fileName = savePath.Contains(msixUpdater.currentChannel.extension) ? savePath : 
+                savePath + msixUpdater.currentChannel.extension;
             
             if(msixUpdater.hasUpdated) return;
             
             OnStartDownloadCall();
             using(WebClient webClient = new())
-                webClient.DownloadFile(msixUpdater.yamlUpdateInfo.url, fileName);
+                webClient.DownloadFile(msixUpdater.currentChannel.url, fileName);
             
             OnDownlaodCompleteCall();
         }
@@ -77,8 +77,8 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <returns>Will return <c>null</c> if has updated.</returns>
         public static Task? DownlaodUpdateAsync(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
-            string fileName = savePath.Contains(msixUpdater.yamlUpdateInfo.extension) ? savePath : 
-                savePath + msixUpdater.yamlUpdateInfo.extension;
+            string fileName = savePath.Contains(msixUpdater.currentChannel.extension) ? savePath : 
+                savePath + msixUpdater.currentChannel.extension;
             
             if(msixUpdater.hasUpdated) return null;
 
@@ -86,7 +86,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
             webClient.DownloadProgressChanged += OnUpdateDownloadProgressChangeCall;
             webClient.DownloadFileCompleted += (_, _) => OnDownlaodCompleteCall();
                 
-            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.yamlUpdateInfo.url), fileName);
+            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.currentChannel.url), fileName);
         }
 
         private static void InstallUpdate(string fileName)

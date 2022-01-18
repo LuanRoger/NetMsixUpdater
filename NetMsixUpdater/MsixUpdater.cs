@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using NetMsixUpdater.Exeptions;
 using NetMsixUpdater.YamlInfo;
-using NetMsixUpdater.YamlInfo.Model;
+using NetMsixUpdater.YamlInfo.Models;
 
 namespace NetMsixUpdater
 {
@@ -14,20 +16,24 @@ namespace NetMsixUpdater
         /// <summary>
         /// Assembly of the current program.
         /// </summary>
-        internal Assembly programAssembly { get; private set; }
+        private Assembly programAssembly { get; set; }
         
-        /// <summary>
-        /// Check if the assembly is update with Yaml.
-        /// </summary>
-        public bool hasUpdated
+        public string currentUpdateChannel { get; }
+
+        internal ChannelInfo currentChannel
         {
             get
             {
                 if(!hasBuilded) throw new NonBuildedException();
                 
-                return programAssembly.GetName().Version >= yamlUpdateInfo.version;
+                return yamlUpdateInfo.channels[currentUpdateChannel];
             }
         }
+
+        /// <summary>
+        /// Check if the assembly is update with Yaml.
+        /// </summary>
+        public bool hasUpdated => programAssembly.GetName().Version >= currentChannel.version;
 
         private bool hasBuilded { get; set; } = false;
 
@@ -39,7 +45,7 @@ namespace NetMsixUpdater
         /// <summary>
         /// Yaml file updates information.
         /// </summary>
-        public YamlFileInfo yamlUpdateInfo { get; private set; }
+        public UpdateYamlFile yamlUpdateInfo { get; private set; }
         
         /// <summary>
         /// Instance new MsixUpdater
@@ -50,10 +56,11 @@ namespace NetMsixUpdater
         /// URI: https://raw.githubusercontent.com/LuanRoger/ProjectBook/master/update.yaml
         /// Local: C:\ProjectBook\update.yaml
         /// </example>
-        public MsixUpdater(Assembly assembly, string yamlPath)
+        public MsixUpdater(Assembly assembly, string yamlPath, [NotNull]string currentUpdateChannel)
         {
             programAssembly = assembly;
             this.yamlPath = yamlPath;
+            this.currentUpdateChannel = currentUpdateChannel;
         }
         ~MsixUpdater() => Dispose();
 
@@ -68,11 +75,11 @@ namespace NetMsixUpdater
             
             using YamlUpdateInfo yamlFileInfo = new(yamlPath);
             
-            yamlUpdateInfo = yamlFileInfo.DeserializeYaml<YamlFileInfo>();
+            yamlUpdateInfo = yamlFileInfo.DeserializeYaml();
             
             hasBuilded = true;
         }
-        
+
         public void Dispose()
         {
             programAssembly = null;
