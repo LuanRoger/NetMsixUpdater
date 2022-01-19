@@ -8,34 +8,29 @@ using Xunit.Abstractions;
 
 namespace NetMsixUpdater.Test
 {
-    [Collection("FileManipulation")]
     public class DownloadTest
     {
         private readonly ITestOutputHelper output;
+        private MsixUpdater _msixUpdater { get; }
 
         public DownloadTest(ITestOutputHelper output)
         {
             this.output = output;
-            YamlFileWriter.WriteYamlFile();
+            _msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_MODEL_FILE, "prod");
+            _msixUpdater.Build();
         }
 
         [Fact]
         public void DownloadMsix()
         {
-            MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
-            msixUpdater.Build();
-            
-            msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
+            _msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
             
             Assert.True(File.Exists(Consts.MSIX_OUTPUT));
         }
         [Fact]
         public async void DownloadMsixAsync()
         {
-            MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
-            msixUpdater.Build();
-            
-            Task downloadTask = msixUpdater.DownlaodUpdateAsync(Consts.MSIX_OUTPUT);
+            Task downloadTask = _msixUpdater.DownlaodUpdateAsync(Consts.MSIX_OUTPUT);
             await downloadTask;
 
             Assert.True(File.Exists(Consts.MSIX_OUTPUT));
@@ -43,9 +38,6 @@ namespace NetMsixUpdater.Test
         [Fact]
         public void DownlaodEventsTest()
         {
-            MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
-            msixUpdater.Build();
-            
             UpdateExtension.OnDownloadStart += (_) =>
             {
                 output.WriteLine("The download has ben started");
@@ -54,7 +46,7 @@ namespace NetMsixUpdater.Test
             {
                 output.WriteLine("The download is ended");  
             };
-            msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
+            _msixUpdater.DownlaodUpdate(Consts.MSIX_OUTPUT);
             
             Assert.True(File.Exists(Consts.MSIX_OUTPUT));
         }
@@ -65,9 +57,6 @@ namespace NetMsixUpdater.Test
         }
         private async void StartProgressChangeEvent()
         {
-            MsixUpdater msixUpdater = new(Assembly.GetExecutingAssembly(), Consts.YAML_PATH);
-            msixUpdater.Build();
-            
             UpdateExtension.OnDownloadStart += (_) =>
             {
                   output.WriteLine("StartProgressChangeEvent has ben started...");
@@ -79,7 +68,7 @@ namespace NetMsixUpdater.Test
                 output.WriteLine("Progress: " + progress.ProgressPercentage);  
             };
             
-            Task downloadUpdateAsync = msixUpdater.DownlaodUpdateAsync(Consts.MSIX_OUTPUT);
+            Task downloadUpdateAsync = _msixUpdater.DownlaodUpdateAsync(Consts.MSIX_OUTPUT);
             downloadUpdateAsync.ContinueWith(_ =>
             {
                 Assert.True(File.Exists(Consts.MSIX_OUTPUT));

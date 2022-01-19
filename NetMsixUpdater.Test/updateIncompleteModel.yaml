@@ -1,0 +1,11 @@
+#Model with only non-mandatory values
+
+channels:
+  prod:
+    version: 2.0.0.0
+    url: https://github.com/LuanRoger/ProjectBook/releases/download/v0.7.2/ProjectBook.Pakage_0.7.2.0_AnyCPU.msix
+    extension: .msix
+  dev:
+    version: 2.0.0.0
+    url: https://github.com/LuanRoger/ProjectBook/releases/download/v0.7.2/ProjectBook.Pakage_0.7.2.0_AnyCPU.msix
+    extension: .msix
