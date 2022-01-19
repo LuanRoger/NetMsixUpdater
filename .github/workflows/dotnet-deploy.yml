@@ -1,0 +1,66 @@
+name: .NET Deploy
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-test:
+
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+    
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+        
+      - name: Build
+        run: dotnet build .\NetMsixUpdater\
+      - name: Test
+        run: dotnet test .\NetMsixUpdater\ --no-build --no-restore --verbosity normal
+  
+  depoy-packages:
+    
+    runs-on: windows-latest
+    needs: build-test
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Pack
+      run: dotnet pack .\NetMsixUpdater\ -o out
+      
+    - name: Push to GH Pakcages
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NMSIXU_GH_PACKAGE_PAT }} --source "https://nuget.pkg.github.com/LuanRoger/index.json" --skip-duplicate
+        
+  deploy-nuget:
+  
+    runs-on: windows-latest
+    needs: build-test
+    environment: production
+    
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    
+    - name: Pack
+      run: dotnet pack .\NetMsixUpdater\ -o out
+      
+    - name: Push to Nuget
+      run: |
+        cd out
+        dotnet nuget push *.nupkg --api-key ${{ secrets.NMSIXU_NUGET_KEY }} --source "https://api.nuget.org/v3/index.json" --skip-duplicate
