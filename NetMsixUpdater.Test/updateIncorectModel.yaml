@@ -1,0 +1,12 @@
+#Model with only non-mandatory values
+
+channels:
+  prod:
+    extension: .msix
+    changelog: https://github.com/LuanRoger/ProjectBook/releases/tag/v0.7.2
+    mandatory: false
+  dev:
+    version: 2.0.0.0
+    url: https://github.com/LuanRoger/ProjectBook/releases/download/v0.7.2/ProjectBook.Pakage_0.7.2.0_AnyCPU.msix
+    changelog: https://github.com/LuanRoger/ProjectBook/releases/tag/v0.7.2
+    mandatory: false
