@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Reflection;
 using NetMsixUpdater.Exeptions;
+using NetMsixUpdater.YamlInfo.Models;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -25,24 +26,28 @@ namespace NetMsixUpdater.YamlInfo
         }
         ~YamlUpdateInfo() => Dispose();
 
-        internal T DeserializeYaml<T>()
+        internal UpdateYamlFile DeserializeYaml()
         {
             IDeserializer deserialize = new DeserializerBuilder()
                 .WithNamingConvention(UnderscoredNamingConvention.Instance)
                 .Build();
             
             
-            T result = deserialize.Deserialize<T>(yamlText);
+            UpdateYamlFile result = deserialize.Deserialize<UpdateYamlFile>(yamlText);
             VerifyDerializationResult(result);
             
             return result;
         }
         
-        private void VerifyDerializationResult(object result)
+        private void VerifyDerializationResult(UpdateYamlFile result)
         {
-            var properties = result.GetType().GetProperties();
-            foreach (PropertyInfo propertyInfo in properties)
-                if(propertyInfo.GetValue(result) == null) throw new YamlFieldNullExeption(propertyInfo.Name);
+            var channels = result.channels;
+            if(channels == null || channels.Count == 0)
+                throw new NoUpdateChannelCreated();
+
+            foreach (ChannelInfo channel in channels.Values)
+                if(channel.version == null || channel.url == null || channel.extension == null)
+                    throw new YamlFieldNullExeption(channels.GetType().Name);
         }
         
         public void Dispose()

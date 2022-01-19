@@ -3,23 +3,23 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyVersion></AssemblyVersion>
-    <Version>0.0.1</Version>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
     <License>MIT</License>
     <Authors>LuanRoger</Authors>
+    <Title>Net Msix Updater</Title>
     <Description>Full control of your .msix program updates</Description>
     <PackageDescription>Full control of your .msix program updates</PackageDescription>
-    <Title>Net Msix Updater</Title>
-    <PackageTags>msix;appbundle;updater;.net;update;csharp</PackageTags>
     <PackageProjectUrl>https://github.com/LuanRoger/NetMsixUpdater</PackageProjectUrl>
     <RepositoryUrl>https://github.com/LuanRoger/NetMsixUpdater</RepositoryUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>msix;appbundle;updater;.net;update;csharp</PackageTags>
     <Summary>NetMsixUpdater is a library that allows complete and built-in updates to .msix programs.</Summary>
-    <PackageVersion>0.2.2</PackageVersion>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/LuanRoger/NetMsixUpdater/main/LICENSE</PackageLicenseUrl>
-    <RepositoryType>Git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
+    <None Include="..\LICENSE" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>
