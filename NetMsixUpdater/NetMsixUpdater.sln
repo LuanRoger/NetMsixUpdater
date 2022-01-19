@@ -1,11 +1,10 @@
-﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMsixUpdater", "NetMsixUpdater\NetMsixUpdater.csproj", "{07A386EC-0684-4130-BC2E-19FDA5BB9BF1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMsixUpdater", "..\NetMsixUpdater\NetMsixUpdater.csproj", "{07A386EC-0684-4130-BC2E-19FDA5BB9BF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMsixUpdater.Test", "NetMsixUpdater.Test\NetMsixUpdater.Test.csproj", "{DB25495A-3AAE-453B-AF46-5B84B7E8C107}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetMsixUpdater.Test", "..\NetMsixUpdater.Test\NetMsixUpdater.Test.csproj", "{DB25495A-3AAE-453B-AF46-5B84B7E8C107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
