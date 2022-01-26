@@ -43,35 +43,12 @@ jobs:
         cd out
         dotnet nuget push *.nupkg --api-key ${{ secrets.NMSIXU_GH_PACKAGE_PAT }} --source "https://nuget.pkg.github.com/LuanRoger/index.json" --skip-duplicate
         
-  deploy-packages:
-  
-    runs-on: windows-latest
-    needs: build-test
-    environment: production
-    
-    steps:
-    - uses: actions/checkout@v2
-    
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    
-    - name: Pack
-      run: dotnet pack .\NetMsixUpdater\ -o out
-      
-    - name: Push to GH Packages
-      run: |
-        cd out
-        dotnet nuget push *.nupkg --api-key ${{ secrets.NMSIXU_GH_PACKAGE_PAT}} --source "https://nuget.pkg.github.com/LuanRoger/index.json" --skip-duplicate
-        
   deploy-nuget:
     
     runs-on: windows-latest
     needs: build-test
     environment: production
       
-    
     steps:
     - uses: actions/checkout@v2
     
