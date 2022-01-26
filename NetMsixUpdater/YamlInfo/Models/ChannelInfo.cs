@@ -9,6 +9,5 @@ namespace NetMsixUpdater.YamlInfo.Models
         public string extension {get; internal set;}
         public string changelog { get; internal set; }
         public bool mandatory { get; internal set; }
-        
     }
 }

@@ -7,7 +7,7 @@
         internal const string YAML_INCORECT_MODEL_FILE = @"..\..\..\updateIncorectModel.yaml";
         internal const string YAML_INCORECT_NO_CHANNELS_MODEL = @"..\..\..\updateIncorectNoChannelsModel.yaml";
         
-        internal const string YAML_FILE_IN_SERVER = "https://raw.githubusercontent.com/LuanRoger/ProjectBook/master/update.yaml";
+        internal const string YAML_FILE_IN_SERVER = "https://raw.githubusercontent.com/LuanRoger/NetMsixUpdater/main/NetMsixUpdater.Test/updateModel.yaml";
         internal static readonly string MSIX_OUTPUT = @".\msix_output.msix";
     }
 }
