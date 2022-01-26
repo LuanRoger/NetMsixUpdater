@@ -19,13 +19,13 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// </summary>
         public static void DownloadAndInstall(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
-            string fileName = Consts.installerPath + msixUpdater.currentChannel.extension;
+            string fileName = Consts.installerPath + msixUpdater.currentChannelInfo.extension;
 
             if(msixUpdater.hasUpdated) return;
             
             OnStartDownloadCall();
             using(WebClient webClient = new())
-                webClient.DownloadFile(msixUpdater.currentChannel.url, fileName);
+                webClient.DownloadFile(msixUpdater.currentChannelInfo.url, fileName);
             
             OnDownlaodCompleteCall();
             InstallUpdate(fileName);
@@ -38,7 +38,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <returns>Will return <c>null</c> if has updated.</returns>
         public static Task? DownloadAndInstallAsync(this NetMsixUpdater.MsixUpdater msixUpdater)
         {
-            string fileName = Consts.installerPath + msixUpdater.currentChannel.extension;
+            string fileName = Consts.installerPath + msixUpdater.currentChannelInfo.extension;
 
             if(msixUpdater.hasUpdated) return null;
             
@@ -48,7 +48,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
             webClient.DownloadProgressChanged += OnUpdateDownloadProgressChangeCall;
             webClient.DownloadFileCompleted += (_, _) => OnDownlaodCompleteCall();
                              
-            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.currentChannel.url), fileName)
+            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.currentChannelInfo.url), fileName)
                 .ContinueWith(_ => InstallUpdate(fileName));
         }
         
@@ -58,14 +58,14 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <param name="savePath">Path where the update file will be saved (Without extension)</param>
         public static void DownlaodUpdate(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
-            string fileName = savePath.Contains(msixUpdater.currentChannel.extension) ? savePath : 
-                savePath + msixUpdater.currentChannel.extension;
+            string fileName = savePath.Contains(msixUpdater.currentChannelInfo.extension) ? savePath : 
+                savePath + msixUpdater.currentChannelInfo.extension;
             
             if(msixUpdater.hasUpdated) return;
             
             OnStartDownloadCall();
             using(WebClient webClient = new())
-                webClient.DownloadFile(msixUpdater.currentChannel.url, fileName);
+                webClient.DownloadFile(msixUpdater.currentChannelInfo.url, fileName);
             
             OnDownlaodCompleteCall();
         }
@@ -77,8 +77,8 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
         /// <returns>Will return <c>null</c> if has updated.</returns>
         public static Task? DownlaodUpdateAsync(this NetMsixUpdater.MsixUpdater msixUpdater, string savePath)
         {
-            string fileName = savePath.Contains(msixUpdater.currentChannel.extension) ? savePath : 
-                savePath + msixUpdater.currentChannel.extension;
+            string fileName = savePath.Contains(msixUpdater.currentChannelInfo.extension) ? savePath : 
+                savePath + msixUpdater.currentChannelInfo.extension;
             
             if(msixUpdater.hasUpdated) return null;
 
@@ -86,7 +86,7 @@ namespace NetMsixUpdater.Updater.Extensions.MsixUpdater
             webClient.DownloadProgressChanged += OnUpdateDownloadProgressChangeCall;
             webClient.DownloadFileCompleted += (_, _) => OnDownlaodCompleteCall();
                 
-            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.currentChannel.url), fileName);
+            return webClient.DownloadFileTaskAsync(new Uri(msixUpdater.currentChannelInfo.url), fileName);
         }
 
         private static void InstallUpdate(string fileName)

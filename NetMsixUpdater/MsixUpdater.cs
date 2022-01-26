@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using NetMsixUpdater.Exeptions;
 using NetMsixUpdater.YamlInfo;
 using NetMsixUpdater.YamlInfo.Models;
@@ -18,9 +17,27 @@ namespace NetMsixUpdater
         /// </summary>
         private Assembly programAssembly { get; set; }
         
-        public string currentUpdateChannel { get; }
+        private string _currentUpdateChannel { get; set; }
+        
+        /// <summary>
+        /// Get or set the current channel to get the update infos.
+        /// If you change the channel you need to Build again.
+        /// </summary>
+        public string currentUpdateChannel
+        {
+            get => _currentUpdateChannel;
+            set
+            {
+                if(!hasBuilded) throw new NonBuildedException();
+                
+                hasBuilded = false;
+                yamlUpdateInfo = null;
+                
+                _currentUpdateChannel = value;
+            }
+        }
 
-        internal ChannelInfo currentChannel
+        public ChannelInfo currentChannelInfo
         {
             get
             {
@@ -33,7 +50,7 @@ namespace NetMsixUpdater
         /// <summary>
         /// Check if the assembly is update with Yaml.
         /// </summary>
-        public bool hasUpdated => programAssembly.GetName().Version >= currentChannel.version;
+        public bool hasUpdated => programAssembly.GetName().Version >= currentChannelInfo.version;
 
         private bool hasBuilded { get; set; } = false;
 
@@ -60,7 +77,7 @@ namespace NetMsixUpdater
         {
             programAssembly = assembly;
             this.yamlPath = yamlPath;
-            this.currentUpdateChannel = currentUpdateChannel;
+            _currentUpdateChannel = currentUpdateChannel;
         }
         ~MsixUpdater() => Dispose();
 
